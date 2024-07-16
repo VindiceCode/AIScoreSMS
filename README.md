@@ -76,11 +76,11 @@ This comprehensive system ensures efficient handling of SMS categorization with 
        "FUNCTIONS_WORKER_RUNTIME": "python",
        "AzureWebJobsStorage": "",
        "ANTHROPIC_API_KEY": "your_anthropic_api_key_here",
-       "OWNER_API_KEYS": "{\"owner1\": \"hubspot_api_key_1\", \"owner2\": \"hubspot_api_key_2\"}"
+       "OWNER_API_KEYS": "{\"owner1\": \"bonzo_api_key_1\", \"owner2\": \"bonzo_api_key_2\"}"
      }
    }
    ```
-   Replace `your_anthropic_api_key_here` with your actual Anthropic API key, and add the appropriate HubSpot API keys for each owner.
+   Replace `your_anthropic_api_key_here` with your actual Anthropic API key, and add the appropriate Bonzo API keys for each owner.
 
 ## Running Locally
 
