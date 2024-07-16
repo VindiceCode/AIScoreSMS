@@ -6,7 +6,7 @@ Our Azure Function efficiently categorizes incoming SMS messages using the Anthr
 
 The diagram below illustrates our comprehensive SMS handling process:
 
-![SMS Categorization Flow](https://claude.site/artifacts/27dcaf01-b26e-472b-b5d0-eaf58e82f831)
+![SMS Categorization Flow - Link to Claude Artefact](https://claude.site/artifacts/27dcaf01-b26e-472b-b5d0-eaf58e82f831)
 
 ### Process Explanation
 
