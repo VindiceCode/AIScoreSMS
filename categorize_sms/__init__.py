@@ -14,7 +14,7 @@ from asyncio import Lock
 # Access API keys from environment variables
 # Set these in your Azure Function App settings or local.settings.json for local development
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
-OWNER_API_KEYS: Dict[str, str] = json.loads(os.environ.get("OWNER_API_KEYS", "{}"))
+BONZO_API_KEYS: Dict[str, str] = json.loads(os.environ.get("BONZO_API_KEYS", "{}"))
 
 class RateLimiter:
     def __init__(self, rate, per):
@@ -41,8 +41,8 @@ class RateLimiter:
 # Initialize the rate limiter
 rate_limiter = RateLimiter(30, 60)  # 30 requests per 60 seconds
 
-def get_api_key(owner_id: str) -> Optional[str]:
-    return OWNER_API_KEYS.get(owner_id)
+def get_bonzo_api_key(owner_id: str) -> Optional[str]:
+    return BONZO_API_KEYS.get(owner_id)
 
 @lru_cache(maxsize=1000)
 async def call_anthropic_api(message: str) -> str:
@@ -99,16 +99,16 @@ async def categorize_sms(message: str) -> str:
         logging.error(f"Error during SMS categorization: {e}")
         return "Uncategorized"
 
-async def update_hubspot_contact(api_key: str, contact_id: str, category: str):
-    client = HubSpot(api_key=api_key)
-    properties = {
-        "sms_category": category
-    }
+async def update_bonzo_contact(api_key: str, contact_id: str, category: str):
+    # TODO: Implement the actual Bonzo API call here
     try:
-        await asyncio.to_thread(client.crm.contacts.basic_api.update, contact_id=contact_id, properties=properties)
-        logging.info(f"Updated HubSpot contact {contact_id} with category: {category}")
+        # This is a placeholder. Replace with actual Bonzo API call
+        logging.info(f"Updating Bonzo contact {contact_id} with category: {category}")
+        # Simulating an API call
+        await asyncio.sleep(1)
+        logging.info(f"Updated Bonzo contact {contact_id} with category: {category}")
     except Exception as e:
-        logging.error(f"Error updating HubSpot contact: {e}")
+        logging.error(f"Error updating Bonzo contact: {e}")
         # Don't raise the exception, just log it
 
 async def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -148,7 +148,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
             status_code=400
         )
 
-    api_key = get_api_key(owner_id)
+    api_key = get_bonzo_api_key(owner_id)
     if not api_key:
         return func.HttpResponse(
             json.dumps({"status": "error", "error": "Invalid owner_id provided"}),
@@ -162,8 +162,8 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
         category = await categorize_sms(message)
         logging.info(f"Categorized message as: {category}")
 
-        # Asynchronously update HubSpot contact
-        asyncio.create_task(update_hubspot_contact(api_key, contact_id, category))
+        # Asynchronously update Bonzo contact
+        asyncio.create_task(update_bonzo_contact(api_key, contact_id, category))
 
         return func.HttpResponse(
             json.dumps({
