@@ -2,6 +2,41 @@
 
 This Azure Function App categorizes SMS messages using the Anthropic API and updates HubSpot contacts with the categorization results.
 
+flowchart LR
+    subgraph Config ["Configuration"]
+        direction TB
+        Z1[/"User API Keys"\]:::config --> Z2{{"Key Validator"}}:::api
+        Z3[/"Categories &<br>Prompts"\]:::config --> Z4{{"Config Manager"}}:::api
+    end
+
+    A([Incoming SMS]):::input --> B[/Azure Function\]:::process
+    B --> Z2
+    Z2 -->|Valid| C{Cached?}:::decision
+    C -->|Yes| D[(Retrieve<br>Cached<br>Category)]:::data
+    C -->|No| E{{Anthropic API}}:::api
+    Z4 --> E
+    E --> F[(Store<br>Category)]:::data
+    D --> G[/Categorization<br>Complete\]:::process
+    F --> G
+    G -.-|Async Task| H{{Update<br>HubSpot}}:::api
+    G --> I([HTTP Response]):::output
+
+    subgraph Future ["Future Considerations"]
+        direction TB
+        Y1["ML Model<br>Integration"]:::future
+        Y2["Real-time<br>Analytics"]:::future
+        Y3["Multi-channel<br>Support"]:::future
+    end
+
+    classDef input fill:#FFA07A,stroke:#FF6347,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef output fill:#98FB98,stroke:#32CD32,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef process fill:#87CEFA,stroke:#4169E1,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef decision fill:#FFD700,stroke:#DAA520,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef data fill:#DDA0DD,stroke:#8B008B,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef api fill:#20B2AA,stroke:#008080,stroke-width:2px,color:#FFFFFF,font-weight:bold;
+    classDef config fill:#F0E68C,stroke:#BDB76B,stroke-width:2px,color:#000000,font-weight:bold;
+    classDef future fill:#B0C4DE,stroke:#4682B4,stroke-width:2px,color:#000000,font-weight:bold;
+
 ## Prerequisites
 
 - Python 3.9 or later
