@@ -46,7 +46,8 @@ This comprehensive system ensures efficient handling of SMS categorization with 
 - Python 3.9 or later
 - Azure Functions Core Tools
 - An Anthropic API key
-- HubSpot API keys for each owner
+- HubSpot Private App Key
+- Bonzo API Keys
 
 ## Setup
 
