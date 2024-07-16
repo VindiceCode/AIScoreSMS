@@ -2,3 +2,5 @@ azure-functions
 anthropic
 aiohttp
 hubspot-api-client
+pytest
+pytest-asyncio
