@@ -162,7 +162,7 @@ To deploy this function to Azure using the Azure CLI, follow these steps:
 7. Set the necessary environment variables:
    ```
    az functionapp config appsettings set --name <app-name> --resource-group <resource-group-name> --settings ANTHROPIC_API_KEY=<your-anthropic-api-key>
-   az functionapp config appsettings set --name <app-name> --resource-group <resource-group-name> --settings OWNER_API_KEYS='{"owner1": "hubspot_api_key_1", "owner2": "hubspot_api_key_2"}'
+   az functionapp config appsettings set --name <app-name> --resource-group <resource-group-name> --settings OWNER_API_KEYS='{"owner1": "bonzo_api_key_1", "owner2": "bonzo_api_key_2"}'
    ```
 
 8. Deploy the function app:
@@ -170,7 +170,7 @@ To deploy this function to Azure using the Azure CLI, follow these steps:
    func azure functionapp publish <app-name>
    ```
 
-Replace `<resource-group-name>`, `<location>`, `<storage-account-name>`, `<app-name>`, `<your-anthropic-api-key>`, and the HubSpot API keys with your actual values.
+Replace `<resource-group-name>`, `<location>`, `<storage-account-name>`, `<app-name>`, `<your-anthropic-api-key>`, and the Bonzo API keys with your actual values.
 
 After deployment, your function will be accessible at:
 `https://<app-name>.azurewebsites.net/api/categorize_sms`
