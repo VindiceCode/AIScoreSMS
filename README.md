@@ -1,41 +1,44 @@
-# SMS Categorization App
+# SMS Categorization Azure Function
 
-This Azure Function App categorizes SMS messages using the Anthropic API and updates HubSpot contacts with the categorization results.
+Our Azure Function efficiently categorizes incoming SMS messages using the Anthropic API and updates contact information in HubSpot, with flexibility for configuration and future expansion.
 
-flowchart LR
-    subgraph Config ["Configuration"]
-        direction TB
-        Z1[/"User API Keys"\]:::config --> Z2{{"Key Validator"}}:::api
-        Z3[/"Categories &<br>Prompts"\]:::config --> Z4{{"Config Manager"}}:::api
-    end
+## Process Flow
 
-    A([Incoming SMS]):::input --> B[/Azure Function\]:::process
-    B --> Z2
-    Z2 -->|Valid| C{Cached?}:::decision
-    C -->|Yes| D[(Retrieve<br>Cached<br>Category)]:::data
-    C -->|No| E{{Anthropic API}}:::api
-    Z4 --> E
-    E --> F[(Store<br>Category)]:::data
-    D --> G[/Categorization<br>Complete\]:::process
-    F --> G
-    G -.-|Async Task| H{{Update<br>HubSpot}}:::api
-    G --> I([HTTP Response]):::output
+The diagram below illustrates our comprehensive SMS handling process:
 
-    subgraph Future ["Future Considerations"]
-        direction TB
-        Y1["ML Model<br>Integration"]:::future
-        Y2["Real-time<br>Analytics"]:::future
-        Y3["Multi-channel<br>Support"]:::future
-    end
+![SMS Categorization Flow](https://mermaid.ink/img/pako:eNqNVMtu2zAQ_BWCpxbwS5YlW7k1cYq0aQ4B3KJIe6AlriRWFKmSVGIH-feSlGQ7dhD0JGl3Z3ZmH6v0lTJsaUKhpqEgYq2FFhDW64RJBUTqrUoELGsUykmV4WYY8KhAPE8QYmmGpjCqklKc_cL1lWfH_0-hciT2j77vH2b8dffn1_d49vDAPrHZpW8t4iCE0lICbukEbBEO4Q9VT8AXNRKpWIkYfgPnAikCFCqIuIgBCyFaWipZcSHBRlAsSw0mRfzCQ7w7vB_8E1E0KSh9UNOHm-TrlBx9dD0TK3EhwR6QbJhvBBWcaVA6pSGjZNkqWRhA8UUJXJOhHFJ5mhuNJiE7_U7Rw4AxWcWFkBXImgvaSG3LCc3LWCqSaCKbRGmPJeOBj2RYSoNNxPUWMiW6m52jWuOWoEwKOgHvNGR14l_OL6cXVxew6rr4T_DnBL8neBhg5EKrgWYl7B3BZsAeYhgQ8YpN0cxOdIvGrqEb1NKLNkoXmgkMOYTkWCTDK6LcG6ZgKeFVRr02CpGGG1Xqwm-tP4_YS9LMQtdGH-qs0rIzOoKkVFVbDgRWDvCKq7bk0G_Rj5-f_VkB7MYD7bJ6TXU4wF2vxjw9u6bD5GgRsXljmNphCNWELgUXMaaGShstHtG-4UwgdUnxJhPq7dZrVBxj_fqpxcfYKIfaTCz5phGaLMWmZElNEzo6ORqPj-nhkB6fHh-dDsn47GQ8Gl7Sw1MymozI0fGQbjc0pP7Y3W4fZzuvXoNYlPRkdHY8G5LpZESOh-RiOLscnZPxaDJzS7LdC7TLuZD5lqUC6Jn_-j9QbegznfqNJiGTPOSaJr4SvGQWuEUxDaHJuXSvAzeyN0b3UPo2KyTQUKRNqvRNkXKB8_dGZWsqKdKm0mWpRei7h_UDtnm0Wg)
 
-    classDef input fill:#FFA07A,stroke:#FF6347,stroke-width:2px,color:#000000,font-weight:bold;
-    classDef output fill:#98FB98,stroke:#32CD32,stroke-width:2px,color:#000000,font-weight:bold;
-    classDef process fill:#87CEFA,stroke:#4169E1,stroke-width:2px,color:#000000,font-weight:bold;
-    classDef decision fill:#FFD700,stroke:#DAA520,stroke-width:2px,color:#000000,font-weight:bold;
-    classDef data fill:#DDA0DD,stroke:#8B008B,stroke-width:2px,color:#000000,font-weight:bold;
-    classDef api fill:#20B2AA,stroke:#008080,stroke-width:2px,color:#FFFFFF,font-weight:bold;
-    classDef config fill:#F0E68C,stroke:#BDB76B,stroke-width:2px,color:#000000,font-weight:bold;
-    classDef future fill:#B0C4DE,stroke:#4682B4,stroke-width:2px,color:#000000,font-weight:bold;
+### Process Explanation
+
+1. **Configuration**:
+   - User API keys are securely stored and validated.
+   - Categories and prompts can be dynamically configured.
+
+2. **Incoming SMS**: The system receives an SMS as an HTTP request.
+
+3. **Azure Function**: Our Azure Function processes the incoming request.
+
+4. **API Key Validation**: Ensures the request is from an authorized user.
+
+5. **Cache Check**: The system checks if the message category is already cached.
+
+6. **Categorization**: 
+   - If cached, it retrieves the stored category.
+   - If not, it calls the Anthropic API for categorization using the configured prompts and categories.
+
+7. **Data Storage**: Categorization results are stored for future use.
+
+8. **HubSpot Update**: An asynchronous task updates the contact in HubSpot.
+
+9. **HTTP Response**: The function promptly returns the categorization result.
+
+### Future Considerations
+
+- **ML Model Integration**: Potential to incorporate custom machine learning models.
+- **Real-time Analytics**: Implementation of real-time data analysis and reporting.
+- **Multi-channel Support**: Expansion to support various communication channels beyond SMS.
+
+This comprehensive system ensures efficient handling of SMS categorization with the flexibility to adapt to changing requirements and scale for future enhancements.
 
 ## Prerequisites
 
